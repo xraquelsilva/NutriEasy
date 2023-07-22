@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nutrieasy/screens/cadastro.dart';
-
-import 'homepage.dart';
+import 'package:nutrieasy/screens/NomeRefsPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -124,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            const HomePage(), //Precisa ser corrigido quando tela de cardapio for implementada
+                            const NomeRefsPage(), //Precisa ser corrigido quando tela de cardapio for implementada
                       ),
                     );
                   },
@@ -143,12 +141,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 16),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
-                  );
-                },
+                // onTap: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => const SignUpPage()),
+                //   );
+                // },
                 child: Container(
                   width: 303,
                   height: 44,

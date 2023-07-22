@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import './screens/homepage.dart';
 import './screens/login.dart';
-import './screens/cadastro.dart';
-import './screens/nomeRefsPage.dart';
+import 'screens/NomeRefsPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,11 +22,10 @@ class MyApp extends StatelessWidget {
       initialRoute: 'TelaInicial',
       routes: {
         'TelaInicial': (context) => const HomePage(),
-        '/login': (context) => const LoginPage(),
-        '/cadastro': (context) => const SignUpPage(),
-        // '/forms': (context) => FormsPage(),
+        '/login': (context) =>
+            const LoginPage(), // '/forms': (context) => FormsPage(),
         // '/formsQtdRefeicoes': (context) => FormsIIPage(),
-        'formsNomeRefeicoes': (context) => const nomeRefsPage(),
+        'formsNomeRefeicoes': (context) => const NomeRefsPage(),
         // '/formsCadastroAlimentos': (context) => CadastroAlimentosPage(),
         // '/cadarpio': (context) => CardapioPage(),
       },

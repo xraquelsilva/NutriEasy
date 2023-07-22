@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nutrieasy/screens/cadastro.dart';
 import 'package:nutrieasy/screens/login.dart';
 
 class HomePage extends StatefulWidget {
@@ -92,10 +91,10 @@ class _HomePageState extends State<HomePage> {
               ),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
-                  );
+                  // Navigator.push(
+                  // context,
+                  // MaterialPageRoute(builder: (context) => const SignUpPage()),
+                  // );
                 },
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
