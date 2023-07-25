@@ -23,7 +23,7 @@ class _FormsIIPageState extends State<FormsIIPage> {
           children: [
             const SizedBox(
               height: 142,
-            ), // Espaço entre o topo da tela e o texto
+            ),
             const SizedBox(
               width: 358,
               child: Text(
@@ -36,7 +36,7 @@ class _FormsIIPageState extends State<FormsIIPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 38), // Espaço entre os dois primeiros textos
+            const SizedBox(height: 38),
             const Text(
               'Você pode alterar suas preferências a qualquer momento.',
               style: TextStyle(
@@ -49,7 +49,7 @@ class _FormsIIPageState extends State<FormsIIPage> {
             ),
             const SizedBox(
               height: 20,
-            ), // Espaço entre o segundo texto e o novo texto
+            ),
             const SizedBox(
               width: 341,
               child: Text(
@@ -64,13 +64,11 @@ class _FormsIIPageState extends State<FormsIIPage> {
             ),
             const SizedBox(
               height: 19,
-            ), // Espaço entre o novo texto e o RangeSlider
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal:
-                      24), // Ajuste o espaçamento horizontal conforme necessário
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: SizedBox(
-                height: 50, // Defina a altura desejada para o RangeSlider
+                height: 50,
                 child: SliderTheme(
                   data: SliderThemeData(
                     thumbColor: const Color(0xFF528540),
@@ -103,9 +101,8 @@ class _FormsIIPageState extends State<FormsIIPage> {
             ),
             const SizedBox(
               height: 77,
-            ), // Espaço entre o RangeSlider e o botão
+            ),
             Align(
-              // Adiciona o Align para centralizar verticalmente apenas o botão
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
