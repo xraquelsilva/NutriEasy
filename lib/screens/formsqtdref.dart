@@ -11,7 +11,6 @@ class FormsIIPage extends StatefulWidget {
 
 class _FormsIIPageState extends State<FormsIIPage> {
   double _numberOfMeals = 5.0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
