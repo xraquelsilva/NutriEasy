@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import './screens/homepage.dart';
 import './screens/login.dart';
 import './screens/cadastro.dart';
+import './screens/formsqtdref.dart';
+import './screens/NomeRefsPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/cadastro': (context) => const SignUpPage(),
         // '/forms': (context) => FormsPage(),
-        // '/formsQtdRefeicoes': (context) => FormsIIPage(),
+        '/formsQtdRefeicoes': (context) => const FormsIIPage(),
         // '/formsCadastroAlimentos': (context) => CadastroAlimentosPage(),
         // '/cadarpio': (context) => CardapioPage(),
       },
