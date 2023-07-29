@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/formsqtdref.dart';
 import 'package:nutrieasy/screens/login.dart';
-import 'package:nutrieasy/screens/login.dart';
-import 'package:nutrieasy/screens/homepage.dart';
+// import 'package:nutrieasy/screens/homepage.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
