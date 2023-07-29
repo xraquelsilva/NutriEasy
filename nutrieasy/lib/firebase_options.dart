@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,20 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyD-qxpPvdnFFAVx3g4uFebeoPvfnqhpMd8',
-    appId: '1:353684042977:web:d6773a202fe227b7b5b3a0',
-    messagingSenderId: '353684042977',
-    projectId: 'flyfood-database',
-    authDomain: 'flyfood-database.firebaseapp.com',
-    storageBucket: 'flyfood-database.appspot.com',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCYR2uM8urUH7umJuioS2gp4OrDW-9YykA',
-    appId: '1:353684042977:android:18127e7b76cf68ddb5b3a0',
-    messagingSenderId: '353684042977',
-    projectId: 'flyfood-database',
-    storageBucket: 'flyfood-database.appspot.com',
+    apiKey: 'AIzaSyC147lSpHHq35q2t49K3hIhtKEYU79vLMg',
+    appId: '1:296032970774:android:01dc84ee87b13e20136d37',
+    messagingSenderId: '296032970774',
+    projectId: 'dbnutrieasy',
+    storageBucket: 'dbnutrieasy.appspot.com',
   );
 }

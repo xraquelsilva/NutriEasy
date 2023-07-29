@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nutrieasy/firebase_options.dart';
 import './screens/homepage.dart';
 import './screens/login.dart';
 import './screens/cadastro.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
