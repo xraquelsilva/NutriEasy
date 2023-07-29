@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "353684042977",
+    "project_id": "flyfood-database",
+    "storage_bucket": "flyfood-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353684042977:android:18127e7b76cf68ddb5b3a0",
+        "android_client_info": {
+          "package_name": "com.example.nutrieasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353684042977-cl04r53jvk6sfpl84fpubhtcev53qkti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYR2uM8urUH7umJuioS2gp4OrDW-9YykA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353684042977-cl04r53jvk6sfpl84fpubhtcev53qkti.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
