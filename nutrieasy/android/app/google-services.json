@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "296032970774",
+    "project_id": "dbnutrieasy",
+    "storage_bucket": "dbnutrieasy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296032970774:android:01dc84ee87b13e20136d37",
+        "android_client_info": {
+          "package_name": "com.example.nutrieasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296032970774-26e73oj08uc7fu8revrpdcu8g4qcioet.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC147lSpHHq35q2t49K3hIhtKEYU79vLMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296032970774-26e73oj08uc7fu8revrpdcu8g4qcioet.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
