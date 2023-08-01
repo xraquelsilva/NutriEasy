@@ -250,8 +250,19 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
+        bottomNavigationBar: Container(
+          width: 60,
+          height: 135,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+            image: AssetImage('assets/images/footer.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
     );
   }
+}
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
