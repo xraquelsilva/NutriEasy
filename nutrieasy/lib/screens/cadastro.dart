@@ -250,11 +250,11 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
-        bottomNavigationBar: Container(
-          width: 60,
-          height: 135,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
+      bottomNavigationBar: Container(
+        width: 60,
+        height: 135,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
             image: AssetImage('assets/images/footer.png'),
             fit: BoxFit.cover,
           ),
@@ -264,19 +264,18 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
+Future<void> _selectDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(1900),
+    lastDate: DateTime.now(),
+  );
 
-    // ignore: unrelated_type_equality_checks
-    if (picked != null && picked != birthdateController) {
-      setState(() {
-        birthdateController.text = picked.toString();
-      });
-    }
+  // ignore: unrelated_type_equality_checks
+  if (picked != null && picked != birthdateController) {
+    setState(() {
+      birthdateController.text = picked.toString();
+    });
   }
 }
