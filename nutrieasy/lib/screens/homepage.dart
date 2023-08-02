@@ -19,6 +19,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset('assets/images/logo.png',
+                width: 180, height: 180, fit: BoxFit.contain),
+            const SizedBox(height: 100),
             Container(
               width: 303,
               height: 44,
