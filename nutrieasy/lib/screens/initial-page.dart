@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cadastro.dart';
 import 'package:nutrieasy/screens/login.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class InitialPage extends StatefulWidget {
+  const InitialPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _HomePageState createState() => _HomePageState();
+  _InitialPageState createState() => _InitialPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _InitialPageState extends State<InitialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/formsqtdref.dart';
 import 'package:nutrieasy/screens/login.dart';
-// import 'package:nutrieasy/screens/homepage.dart';
+// import 'package:nutrieasy/screens/initial-page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -188,7 +188,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const FormsIIPage(),
-                        // builder: (context) => const HomePage(),
+                        // builder: (context) => const InitialPage(),
                       ),
                     );
                   },
