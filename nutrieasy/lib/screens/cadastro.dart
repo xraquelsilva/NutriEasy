@@ -273,9 +273,9 @@ Future<void> _selectDate(BuildContext context) async {
   );
 
   // ignore: unrelated_type_equality_checks
-  if (picked != null && picked != birthdateController) {
-    setState(() {
-      birthdateController.text = picked.toString();
-    });
-  }
+  // if (picked != null && picked != birthdateController) {
+  //   setState(() {
+  //     birthdateController.text = picked.toString();
+  //   });
+  // }
 }
