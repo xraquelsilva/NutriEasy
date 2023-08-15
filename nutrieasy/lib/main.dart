@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         'TelaInicial': (context) => const InitialPage(),
         '/login': (context) => const LoginPage(),
         '/cadastro': (context) => const SignUpPage(),
-        'Check': (context) => const CheckPage()
+        'Check': (context) => const CheckPage(),
         // '/forms': (context) => FormsPage(),
         '/formsQtdRefeicoes': (context) => const FormsIIPage(),
         // '/formsCadastroAlimentos': (context) => CadastroAlimentosPage(),
