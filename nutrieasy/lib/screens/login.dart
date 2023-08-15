@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cadastro.dart';
 
-import 'homepage.dart';
+import 'initial-page.dart';
+import 'home-page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,8 +14,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final  _passwordController = TextEditingController();
+  final _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               SizedBox(
                 width: 303,
-                child: TextField(
-                  controller: emailController,
+                child: TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(
                     hintText: 'Insira seu email',
                     hintStyle: TextStyle(
@@ -58,8 +61,8 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 16),
               SizedBox(
                 width: 303,
-                child: TextField(
-                  controller: passwordController,
+                child: TextFormField(
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
                     hintText: 'Insira sua senha',
@@ -120,14 +123,15 @@ class _LoginPageState extends State<LoginPage> {
                     elevation: 4,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const HomePage(), //Precisa ser corrigido quando tela de cardapio for implementada
-                      ),
-                    );
-                  },
+                    login();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) =>
+                    //         const InitialPage(), //Precisa ser corrigido quando tela de cardapio for implementada
+                    //   ),
+                    // );
+                  }, 
                   child: const Text(
                     'Entrar',
                     style: TextStyle(
@@ -197,5 +201,35 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  login() async {
+    try{
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+      if(userCredential != null) {
+        Navigator.pushReplacement(
+          context, 
+          MaterialPageRoute(
+            builder: (context) => const HomePage()
+            ),
+          );
+      }
+    } on FirebaseAuthException catch(e) {
+      if(e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Usuário não encontrado'),
+            backgroundColor: Colors.redAccent , 
+          ),
+        );
+      } else if(e.code == 'wrong-password'){
+       ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Senha inválida!'),
+            backgroundColor: Colors.redAccent , 
+          ),
+        );
+      }
+    }
   }
 }
