@@ -97,7 +97,7 @@ class _InitialPageState extends State<InitialPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
+                    MaterialPageRoute(builder: (context) => SignUpPage()),
                   );
                 },
                 style: TextButton.styleFrom(

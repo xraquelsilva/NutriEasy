@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'TelaInicial': (context) => const InitialPage(),
         '/login': (context) => const LoginPage(),
-        '/cadastro': (context) => const SignUpPage(),
+        '/cadastro': (context) =>  SignUpPage(),
         'Check': (context) => const CheckPage(),
         // '/forms': (context) => FormsPage(),
         '/formsQtdRefeicoes': (context) => const FormsIIPage(),
