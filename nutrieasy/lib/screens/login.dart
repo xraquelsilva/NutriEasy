@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
-  final  _passwordController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _firebaseAuth = FirebaseAuth.instance;
 
   @override
@@ -23,12 +23,18 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         child: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: EdgeInsets.zero,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Image.asset(
+                'assets/images/header.png',
+                width: MediaQuery.of(context).size.width,
+                // height: 20,
+                fit: BoxFit.cover,
+              ),
               SizedBox(
                 width: 303,
                 child: TextFormField(
@@ -131,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                     //         const InitialPage(), //Precisa ser corrigido quando tela de cardapio for implementada
                     //   ),
                     // );
-                  }, 
+                  },
                   child: const Text(
                     'Entrar',
                     style: TextStyle(
@@ -204,29 +210,29 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async {
-    try{
-      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-      if(userCredential != null) {
+    try {
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+      if (userCredential != null) {
         Navigator.pushReplacement(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => const HomePage()
-            ),
-          );
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
       }
-    } on FirebaseAuthException catch(e) {
-      if(e.code == 'user-not-found') {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Usuário não encontrado'),
-            backgroundColor: Colors.redAccent , 
+            backgroundColor: Colors.redAccent,
           ),
         );
-      } else if(e.code == 'wrong-password'){
-       ScaffoldMessenger.of(context).showSnackBar(
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Senha inválida!'),
-            backgroundColor: Colors.redAccent , 
+            backgroundColor: Colors.redAccent,
           ),
         );
       }
