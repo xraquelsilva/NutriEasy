@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 // import 'package:nutrieasy/screens/formsqtdref.dart';
 
@@ -12,12 +13,16 @@ class NomeRefsPage extends StatefulWidget {
 
 class _NomeRefsPageState extends State<NomeRefsPage> {
   late List<String> textFieldValues;
+  List<TextEditingController> textControllers = [];
 
   @override
   void initState() {
     super.initState();
     textFieldValues = List.generate(widget.numberOfMeals, (index) => '');
-  }
+    for (int i = 0; i < textFieldValues.length; i++) {
+      textControllers.add(TextEditingController());
+    }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +73,7 @@ class _NomeRefsPageState extends State<NomeRefsPage> {
                     vertical: 10,
                   ),
                   child: TextField(
+                    controller: textControllers[index], 
                     onChanged: (value) {
                       setState(() {
                         textFieldValues[index] = value;
@@ -104,6 +110,7 @@ class _NomeRefsPageState extends State<NomeRefsPage> {
             margin: const EdgeInsets.all(20),
             child: ElevatedButton(
               onPressed: () {
+                CreateMeals();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -138,7 +145,20 @@ class _NomeRefsPageState extends State<NomeRefsPage> {
       ),
     );
   }
+
+  void CreateMeals() {
+      DatabaseReference databaseReference = FirebaseDatabase.instance.reference().child('cardapio');
+      for (int i = 0; i < textFieldValues.length; i++) {
+        String nameMeal = textControllers[i].text;
+        if(nameMeal.isNotEmpty){
+          databaseReference.push().set({
+            'name': nameMeal
+          });
+        }
+      }
+  }
 }
+
 
 class NextScreen extends StatelessWidget {
   final List<String> textFieldValues;
