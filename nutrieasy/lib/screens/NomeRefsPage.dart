@@ -22,6 +22,7 @@ class _NomeRefsPageState extends State<NomeRefsPage> {
     for (int i = 0; i < textFieldValues.length; i++) {
       textControllers.add(TextEditingController());
     }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -144,19 +145,20 @@ class _NomeRefsPageState extends State<NomeRefsPage> {
       ),
     );
   }
+
+  void CreateMeals() {
+      DatabaseReference databaseReference = FirebaseDatabase.instance.reference().child('cardapio');
+      for (int i = 0; i < textFieldValues.length; i++) {
+        String nameMeal = textControllers[i].text;
+        if(nameMeal.isNotEmpty){
+          databaseReference.push().set({
+            'name': nameMeal
+          });
+        }
+      }
+  }
 }
 
-void CreateMeals() {
-    DatabaseReference databaseReference = FirebaseDatabase.instance.reference().child('cardapio');
-    for (int i = 0; i < textFieldValues.length; i++) {
-      String nameMeal = textControllers[i].text;
-      if(nameMeal.isNotEmpty){
-        databaseReference.push().set({
-          'name': nameMeal
-        });
-      }
-    }
-  }
 
 class NextScreen extends StatelessWidget {
   final List<String> textFieldValues;
