@@ -66,6 +66,12 @@ flutter:
   - assets/images/footer.png
   - assets/images/logo.png
   - assets/images/header.png
+  - assets/images/ref1.png
+  - assets/images/ref2.png
+  - assets/images/ref3.png
+  - assets/images/ref4.png
+  - assets/images/botao-de-inicio.png
+  - assets/images/perfil-de-usuario.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
