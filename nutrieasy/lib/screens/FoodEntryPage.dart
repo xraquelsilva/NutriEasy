@@ -12,12 +12,12 @@ class FoodEntryPage extends StatefulWidget {
 
 class _FoodEntryPageState extends State<FoodEntryPage> {
   int currentMealIndex = 0;
-  List<List<String>> mealFoods = [];
+  List<List<List<String>>> mealOptions = [];
 
   @override
   void initState() {
     super.initState();
-    mealFoods = List.generate(widget.mealNames.length, (_) => []);
+    mealOptions = List.generate(widget.mealNames.length, (_) => [[]]);
   }
 
   @override
@@ -40,36 +40,86 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: ListView.builder(
-                itemCount: mealFoods[currentMealIndex].length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Row(
-                      children: [
-                        Expanded(
-                          child: Text(mealFoods[currentMealIndex][index]),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              mealFoods[currentMealIndex].removeAt(index);
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.clear,
-                            color: Color(0xFFF03D3D),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    for (int optionIndex = 0;
+                        optionIndex < mealOptions[currentMealIndex].length;
+                        optionIndex++)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Opção ${optionIndex + 1}',
+                            style: const TextStyle(
+                              fontFamily: 'Public Sans',
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                          const SizedBox(height: 8),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: mealOptions[currentMealIndex]
+                                    [optionIndex]
+                                .length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(mealOptions[currentMealIndex]
+                                    [optionIndex][index]),
+                                trailing: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      mealOptions[currentMealIndex][optionIndex]
+                                          .removeAt(index);
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.clear,
+                                    color: Color(0xFFF03D3D),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          ElevatedButton(
+                            onPressed: () {
+                              _showAddFoodDialog(currentMealIndex, optionIndex);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: const Color(0xFF528540),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                                side: const BorderSide(
+                                    width: 0.50, color: Color(0x444A4A4A)),
+                              ),
+                              elevation: 4,
+                              minimumSize: const Size(303, 44),
+                            ),
+                            child: const Text(
+                              'Adicionar Alimento',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontFamily: 'Public Sans',
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.96,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                _showAddFoodDialog();
+                _addOption(currentMealIndex);
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
@@ -82,7 +132,7 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
                 minimumSize: const Size(303, 44),
               ),
               child: const Text(
-                'Adicionar Alimento',
+                'Adicionar Opção',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -125,7 +175,7 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
   }
 
   // Função para mostrar o diálogo de adicionar alimento
-  void _showAddFoodDialog() {
+  void _showAddFoodDialog(int mealIndex, int optionIndex) {
     showDialog(
       context: context,
       builder: (context) {
@@ -157,7 +207,7 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
               onPressed: () {
                 Navigator.pop(context);
                 setState(() {
-                  mealFoods[currentMealIndex].add(foodName);
+                  mealOptions[mealIndex][optionIndex].add(foodName);
                 });
               },
               style: ElevatedButton.styleFrom(
@@ -176,6 +226,13 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
     );
   }
 
+  // Função para adicionar uma nova opção
+  void _addOption(int mealIndex) {
+    setState(() {
+      mealOptions[mealIndex].add([]);
+    });
+  }
+
   // Função para alternar para a próxima refeição
   void _nextMeal() {
     if (currentMealIndex < widget.mealNames.length - 1) {
@@ -183,11 +240,23 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
         currentMealIndex++;
       });
     } else {
+      List<List<List<String>>> mealFoods = [];
+      for (int i = 0; i < mealOptions.length; i++) {
+        List<List<String>> optionFoods = [];
+        for (int j = 0; j < mealOptions[i].length; j++) {
+          optionFoods.add(mealOptions[i][j]);
+        }
+        mealFoods.add(optionFoods);
+      }
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                SubstRef(mealNames: widget.mealNames, mealFoods: mealFoods)),
+          builder: (context) => SubstRef(
+            mealNames: widget.mealNames,
+            mealFoods: mealFoods,
+          ),
+        ),
       );
     }
   }
