@@ -3,7 +3,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+// import 'package:fl_chart/fl_chart.dart';
 //import 'navbar.dart';
 
 
@@ -19,10 +19,6 @@ class Refeicaodetalhes extends StatefulWidget{
   @override
   State<Refeicaodetalhes> createState() => Refeicao();
 }
-
-
-
-
 
 class Refeicao extends State<Refeicaodetalhes>{
 
@@ -112,7 +108,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                         offset: Offset(0, 3), // Define a posição da sombra
                       )
                     ],
-                    color: Color(0xFFD9D9D9),
+                    color: Color.fromARGB(255, 255, 255, 255),
                     borderRadius: BorderRadius.all(Radius.circular(10))
                   ),
                   child: Column(
@@ -123,7 +119,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                         Text('Alimento 1'),
                         Expanded(
                           child: Divider(
-                            color: Colors.black,
+                            color: Color.fromRGBO(74, 74, 74, 1),
                             thickness: 1.0,
                             indent: 10, 
                             endIndent: 10, 
@@ -137,7 +133,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                             onTap: () {
                               // Sua lógica de onPressed aqui
                             },
-                            child: Image.asset('assets/nutri_img/refreshcardapio.png'),
+                            
                           ),
                         )
 
@@ -149,7 +145,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                         Text('Alimento 2'),
                         Expanded(
                           child: Divider(
-                            color: Colors.black,
+                            color: Color.fromRGBO(74, 74, 74, 1),
                             thickness: 1.0,
                             indent: 10, 
                             endIndent: 10, 
@@ -163,7 +159,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                             onTap: () {
                               // Sua lógica de onPressed aqui
                             },
-                            child: Image.asset('assets/nutri_img/refreshcardapio.png'),
+                            
                           ),
                         )],
                     ),
@@ -173,7 +169,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                         Text('Alimento 3'),
                         Expanded(
                           child: Divider(
-                            color: Colors.black,
+                            color: Color.fromRGBO(74, 74, 74, 1),
                             thickness: 1.0,
                             indent: 10, 
                             endIndent: 10, 
@@ -187,98 +183,10 @@ class Refeicao extends State<Refeicaodetalhes>{
                             onTap: () {
                               // Sua lógica de onPressed aqui
                             },
-                            child: Image.asset('assets/nutri_img/refreshcardapio.png'),
+                            
                           ),
                         )],
                     ),
-                    SizedBox(height: 50,),
-                    Container(
-                      child: PieChartSample(),),
-
-                    SizedBox(height: 15,),
-                    Row(
-                      children: [
-                        SizedBox(width: 5,),
-                        Material(
-                          elevation: 4, // Ajuste o valor da elevação conforme necessário
-                          shape: CircleBorder(),
-                          shadowColor: Colors.grey, // Cor da sombra
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xff528540),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Text('Proteínas',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
-                        SizedBox(width: 70,),
-                        Material(
-                          elevation: 4, // Ajuste o valor da elevação conforme necessário
-                          shape: CircleBorder(),
-                          shadowColor: Colors.grey, // Cor da sombra
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xffFFDE8D),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Text('Carboidratos',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
-                      ],
-                    ),
-                    SizedBox(height: 10,),
-                    Row(
-                      children: [
-                        SizedBox(width: 5,),
-                        Material(
-                          elevation: 4, // Ajuste o valor da elevação conforme necessário
-                          shape: CircleBorder(),
-                          shadowColor: Colors.grey, // Cor da sombra
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xffDE7047),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Text('Fibras',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
-                        SizedBox(width: 91,),
-                        Material(
-                          elevation: 4, // Ajuste o valor da elevação conforme necessário
-                          shape: CircleBorder(),
-                          shadowColor: Colors.grey, // Cor da sombra
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xff4A4A4A),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 5,),
-                        Text('Gorduras',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
-                      ],
-                    ),
-
-
-
-
-
-
                     ],
                   ),
                 )
@@ -297,75 +205,4 @@ class Refeicao extends State<Refeicaodetalhes>{
     );
 
 }
-}
-
-
-class PieChartSample extends StatelessWidget {
-  final bigger = false;
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.2, // Define a proporção do gráfico
-      child: PieChart(
-        PieChartData(
-          sections: _createSampleData(),
-          // Outras configurações do gráfico aqui
-          centerSpaceRadius: 0,
-          sectionsSpace: 0,
-          borderData: FlBorderData(show: false)
-          
-        ),
-        
-      ),
-      
-    );
-  }
-
-  List<PieChartSectionData> _createSampleData() {
-    return [
-      PieChartSectionData(
-        value: 5,
-        title: '5%',
-        radius: 100,
-        color: Color(0xffDE7047),
-        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
-        
-        
-      ),
-      PieChartSectionData(
-        value: 70,
-        title: '70%',
-        radius: 100,
-        color: Color(0xff528540),
-        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
-        
-      ),
-      PieChartSectionData(
-        value: 15,
-        title: '15%',
-        radius: 100,
-        color: Color(0xffFFDE8D),
-        titleStyle: TextStyle(fontSize: 13, color: Colors.black),
-        
-      ),
-      PieChartSectionData(
-        value: 10,
-        title: '10%',
-        radius: 100,
-        color: Color(0xff4A4A4A),
-        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
-        
-      ),
-      
-      
-     
-
-      
-
-    ];
-    
-    
-}
-
-  
 }
