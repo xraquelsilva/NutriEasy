@@ -89,8 +89,8 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
                               _showAddFoodDialog(currentMealIndex, optionIndex);
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: const Color(0xFF528540),
+                              backgroundColor: Colors.white,
+                              foregroundColor: const Color.fromRGBO(82, 133, 64, 1),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(25),
                                 side: const BorderSide(
@@ -102,7 +102,8 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
                             child: const Text(
                               'Adicionar Alimento',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Color.fromRGBO(82, 133, 64, 1),
+                                fontStyle: FontStyle.normal,
                                 fontSize: 16,
                                 fontFamily: 'Public Sans',
                                 fontWeight: FontWeight.w700,
