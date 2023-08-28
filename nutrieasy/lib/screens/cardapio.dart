@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/navbar.dart';
+import '../check-page.dart';
 import 'refeicao.dart';
 //import 'perfil.dart';
 
@@ -13,6 +15,8 @@ class Cardapio extends StatefulWidget {
 }
 
 class _Cardapiostate extends State<Cardapio> {
+  final _firebaseAuth = FirebaseAuth.instance;
+
   String? selectedDate;
   String dia = '';
 
@@ -479,10 +483,28 @@ class _Cardapiostate extends State<Cardapio> {
                     ),
                   )),
             ),
+            TextButton(
+              onPressed: () {
+                logout();
+              }, 
+              child: Text('Sair')
+            )
           ],
         ),
       ),
       // bottomNavigationBar: BottomTabBar(),
     );
+  }
+
+  logout () async {
+    await _firebaseAuth.signOut().then(
+      (user) => Navigator.pushReplacement(
+        context as BuildContext, 
+        MaterialPageRoute(
+          builder: (context) => const CheckPage(),
+          ),
+        ),
+    );
+
   }
 }
