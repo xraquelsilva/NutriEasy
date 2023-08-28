@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrieasy/check-page.dart';
 import 'package:nutrieasy/screens/formsqtdref.dart';
 import 'package:nutrieasy/screens/login.dart';
 // import 'package:nutrieasy/screens/initial-page.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+
+  // const SignUpPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -12,10 +15,28 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController birthdateController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final _firebaseAuth = FirebaseAuth.instance;
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _birthdateController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _birthdateController.text =
+            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,70 +51,70 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               SizedBox(
                 width: 303,
-                child: TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    hintText: 'Insira seu nome',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF919191),
-                      fontSize: 12,
-                      fontFamily: 'Public Sans',
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.72,
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF528540),
-                        width: 0.50,
+                child: 
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                        hintText: 'Insira seu nome completo',
+                        hintStyle: TextStyle(
+                          color: Color(0xFF919191),
+                          fontSize: 12,
+                          fontFamily: 'Public Sans',
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 0.72,
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF528540),
+                            width: 0.50,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF528540),
+                            width: 0.50,
+                          ),
+                        ),
+                        contentPadding: EdgeInsets.all(16),
                       ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF528540),
-                        width: 0.50,
-                      ),
-                    ),
-                    contentPadding: EdgeInsets.all(16),
                   ),
-                ),
               ),
               const SizedBox(height: 16),
               SizedBox(
                 width: 303,
-                child: TextField(
-                  controller: birthdateController,
-                  decoration: const InputDecoration(
-                    hintText: 'Insira sua data de nascimento',
-                    hintStyle: TextStyle(
-                      color: Color(0xFF919191),
-                      fontSize: 12,
-                      fontFamily: 'Public Sans',
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.72,
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF528540),
-                        width: 0.50,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0xFF528540),
-                        width: 0.50,
-                      ),
-                    ),
-                    contentPadding: EdgeInsets.all(16),
-                  ),
+                child: TextFormField(
+                  controller: _birthdateController,
                   onTap: () => _selectDate(context),
-                  readOnly: true,
-                ),
+                  decoration: const InputDecoration(
+                      hintText: 'Insira sua data de nascimento',
+                      hintStyle: TextStyle(
+                        color: Color(0xFF919191),
+                        fontSize: 12,
+                        fontFamily: 'Public Sans',
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.72,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF528540),
+                          width: 0.50,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFF528540),
+                          width: 0.50,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.all(16),
+                    ),
+                  ),
               ),
               const SizedBox(height: 16),
               SizedBox(
                 width: 303,
-                child: TextField(
-                  controller: emailController,
+                child: TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(
                     hintText: 'Insira seu email',
                     hintStyle: TextStyle(
@@ -123,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 width: 303,
                 child: TextField(
-                  controller: passwordController,
+                  controller: _passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
                     hintText: 'Insira sua senha',
@@ -184,13 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     elevation: 4,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const FormsIIPage(),
-                        // builder: (context) => const InitialPage(),
-                      ),
-                    );
+                    Register();
                   },
                   child: const Text(
                     'Cadastrar-se',
@@ -262,20 +277,41 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
+
+  Register() async {
+    try{
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(
+            email: _emailController.text, 
+            password: _passwordController.text
+            );
+        if (userCredential != null) {
+          userCredential.user!.updateDisplayName(_nameController.text);
+          Navigator.pushAndRemoveUntil(
+            context as BuildContext, 
+            MaterialPageRoute(builder: (context) => FormsIIPage(),
+            ),
+            (route) => false);
+        }
+    }on FirebaseAuthException catch (e) {
+      if(e.code == 'weak-password'){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Crie uma senha mais forte.'),
+            backgroundColor: Colors.redAccent,
+            ),
+        );
+      }else if(e.code == 'email-already-in-use'){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Este e-mail já foi cadastrado.'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
+    }
+  }
 }
 
-Future<void> _selectDate(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(1900),
-    lastDate: DateTime.now(),
-  );
 
-  // ignore: unrelated_type_equality_checks
-  // if (picked != null && picked != birthdateController) {
-  //   setState(() {
-  //     birthdateController.text = picked.toString();
-  //   });
-  // }
-}

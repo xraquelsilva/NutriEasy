@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/substrefs.dart';
 
@@ -8,6 +9,7 @@ class FoodEntryPage extends StatefulWidget {
 
   @override
   _FoodEntryPageState createState() => _FoodEntryPageState();
+  
 }
 
 class _FoodEntryPageState extends State<FoodEntryPage> {
@@ -20,12 +22,30 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
     mealOptions = List.generate(widget.mealNames.length, (_) => [[]]);
   }
 
+  Future<void> saveOptionsToFirebase(List<List<List<String>>> mealOptions) async {
+    DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
+    
+    // Iterar pelas refeições e opções
+    for (int mealIndex = 0; mealIndex < mealOptions.length; mealIndex++) {
+      for (int optionIndex = 0; optionIndex < mealOptions[mealIndex].length; optionIndex++) {
+        List<String> foods = mealOptions[mealIndex][optionIndex];
+        
+        // Enviar as opções para o Firebase
+        await databaseReference.child('refeicoes').push().set({
+          'mealIndex': mealIndex,
+          'optionIndex': optionIndex,
+          'foods': foods,
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(45.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -89,8 +109,8 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
                               _showAddFoodDialog(currentMealIndex, optionIndex);
                             },
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: const Color(0xFF528540),
+                              backgroundColor: Colors.white,
+                              foregroundColor: const Color.fromRGBO(82, 133, 64, 1),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(25),
                                 side: const BorderSide(
@@ -102,7 +122,8 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
                             child: const Text(
                               'Adicionar Alimento',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Color.fromRGBO(82, 133, 64, 1),
+                                fontStyle: FontStyle.normal,
                                 fontSize: 16,
                                 fontFamily: 'Public Sans',
                                 fontWeight: FontWeight.w700,
@@ -145,7 +166,9 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                saveOptionsToFirebase(mealOptions);
                 _nextMeal();
+
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

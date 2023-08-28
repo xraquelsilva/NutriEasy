@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrieasy/screens/cardapio.dart';
 
 class SubstRef extends StatefulWidget {
   final List<String> mealNames;
@@ -26,10 +28,11 @@ class _SubstRefState extends State<SubstRef> {
 
     return Scaffold(
       body: Container(
+        padding: const EdgeInsets.all(45.0),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: <Color>[
-              Color(0xFFCDDE47),
+              Colors.white,
               Colors.white,
             ],
             begin: Alignment.topCenter,
@@ -108,7 +111,7 @@ class _SubstRefState extends State<SubstRef> {
                   fontFamily: 'PublicSans',
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF4A4A4A),
+                  color: Color(0xFF528540),
                 ),
               ),
               const SizedBox(height: 20),
@@ -126,8 +129,8 @@ class _SubstRefState extends State<SubstRef> {
                                 style: const TextStyle(
                                   fontFamily: 'PublicSans',
                                   fontSize: 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF4A4A4A),
+                                  // fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
@@ -139,10 +142,51 @@ class _SubstRefState extends State<SubstRef> {
                   ),
                 ),
               ),
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Cardapio()),
+                );
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF528540),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    side: const BorderSide(width: 0.50, color: Color(0x444A4A4A)),
+                  ),
+                  elevation: 4,
+                  minimumSize: const Size(303, 44),
+                ),
+                child: const Text(
+                  'salvar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Public Sans',
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.96,
+                  ),
+                ),
+            ),
             ],
           ),
         ),
       ),
     );
   }
+
+  // void CreateMeals() {
+  //   DatabaseReference databaseReference = FirebaseDatabase.instance.reference().child('cardapio');
+  //   for (int i = 0; i < widget.mealNames.length; i++) {
+  //     String nameMeal = textControllers[i].text;
+  //     if(nameMeal.isNotEmpty){
+  //       databaseReference.push().set({
+  //         'name': nameMeal
+  //       });
+  //     }
+  //   }
+  // }
 }

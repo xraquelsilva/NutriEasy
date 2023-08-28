@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cadastro.dart';
+import 'package:nutrieasy/screens/cardapio.dart';
+import 'package:nutrieasy/screens/refeicao.dart';
 
 import 'initial-page.dart';
 import 'home-page.dart';
@@ -15,20 +17,27 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
-  final  _passwordController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Container(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         child: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: EdgeInsets.zero,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Image.asset(
+                'assets/images/header.png',
+                width: MediaQuery.of(context).size.width,
+                // height: 20,
+                fit: BoxFit.cover,
+              ),
               SizedBox(
                 width: 303,
                 child: TextFormField(
@@ -131,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                     //         const InitialPage(), //Precisa ser corrigido quando tela de cardapio for implementada
                     //   ),
                     // );
-                  }, 
+                  },
                   child: const Text(
                     'Entrar',
                     style: TextStyle(
@@ -150,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
+                    MaterialPageRoute(builder: (context) => SignUpPage()),
                   );
                 },
                 child: Container(
@@ -204,29 +213,29 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async {
-    try{
-      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
-      if(userCredential != null) {
+    try {
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+      if (userCredential != null) {
         Navigator.pushReplacement(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => const HomePage()
-            ),
-          );
+          context,
+          MaterialPageRoute(builder: (context) => const Cardapio()),
+        );
       }
-    } on FirebaseAuthException catch(e) {
-      if(e.code == 'user-not-found') {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Usuário não encontrado'),
-            backgroundColor: Colors.redAccent , 
+            backgroundColor: Colors.redAccent,
           ),
         );
-      } else if(e.code == 'wrong-password'){
-       ScaffoldMessenger.of(context).showSnackBar(
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Senha inválida!'),
-            backgroundColor: Colors.redAccent , 
+            backgroundColor: Colors.redAccent,
           ),
         );
       }
