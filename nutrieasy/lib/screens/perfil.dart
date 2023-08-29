@@ -28,7 +28,8 @@ class _PerfilPageState extends State<PerfilPage> {
             alignment: Alignment.bottomLeft,
             icon: Icon(Icons.arrow_back),
             color: Colors.black54,
-            onPressed: () {},
+            onPressed: () {
+            },
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -49,11 +50,11 @@ class _PerfilPageState extends State<PerfilPage> {
           SizedBox(
             child: Container(
               alignment: Alignment.topCenter,
-              // child: CircleAvatar(
-              //   backgroundColor: Colors.orange,
-              //   backgroundImage: AssetImage('assets/nutri_img/perfil.jpg'),
-              //   radius: 37,
-              // ),
+               //child: CircleAvatar(
+                //backgroundColor: Colors.orange,
+                //backgroundImage: AssetImage('assets/images/perfil.png'),
+                //radius: 37,
+               //),
             ),
           ),
           SizedBox(
@@ -187,6 +188,11 @@ class TabelaItem2 {
 
   TabelaItem2({required this.titulo, required this.valor});
 }
+
+
+
+
+
 
 Widget buildTable() {
   List<TabelaItem> tabelaDados1 = [

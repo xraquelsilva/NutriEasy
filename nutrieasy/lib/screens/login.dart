@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cadastro.dart';
-import 'package:nutrieasy/screens/cardapio.dart';
+//import 'package:nutrieasy/screens/cardapio.dart';
 import 'package:nutrieasy/screens/refeicao.dart';
+import 'navbar.dart';
 
 import 'initial-page.dart';
 import 'home-page.dart';
@@ -220,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
       if (userCredential != null) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Cardapio()),
+          MaterialPageRoute(builder: (context) =>  BottomTabBar()),
         );
       }
     } on FirebaseAuthException catch (e) {

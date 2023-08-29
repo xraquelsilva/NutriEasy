@@ -3,7 +3,7 @@
 
 
 import 'package:flutter/material.dart';
-// import 'package:fl_chart/fl_chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 //import 'navbar.dart';
 
 
@@ -13,14 +13,34 @@ class Refeicaodetalhes extends StatefulWidget{
   
   final String titulo;
   final String data;
+  final int index;
 
-  Refeicaodetalhes({required this.titulo, required this.data, Key? key}) : super(key: key);
+  Refeicaodetalhes({required this.titulo, required this.data, required this.index, Key? key}) : super(key: key);
 
   @override
   State<Refeicaodetalhes> createState() => Refeicao();
 }
 
 class Refeicao extends State<Refeicaodetalhes>{
+
+   late List<List<String>> refeicoes;
+  late List<String> alimentos;
+  
+
+  @override
+  void initState() {
+    super.initState();
+    
+    refeicoes = [
+      ['Ovo cozido', 'Cuscuz', 'Tapioca'], 
+      ['Arroz', 'Feijão', 'Frango grelhado'], 
+      // ... outras refeições
+    ];
+
+    alimentos = refeicoes[widget.index];
+    
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +66,7 @@ class Refeicao extends State<Refeicaodetalhes>{
           ), ),
           
           elevation: 0,
+          
           
           leading: IconButton(
             padding: EdgeInsets.all(15),
@@ -116,7 +137,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                     children: [
                       Row(
                       children: [
-                        Text('Alimento 1'),
+                        Text(alimentos[0]),
                         Expanded(
                           child: Divider(
                             color: Color.fromRGBO(74, 74, 74, 1),
@@ -124,7 +145,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                             indent: 10, 
                             endIndent: 10, 
                           ),),
-                        Text('19 kcal'),
+                        Text('155 kcal'),
                         SizedBox(width: 10,),
                         SizedBox(
                           height: 20,
@@ -133,7 +154,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                             onTap: () {
                               // Sua lógica de onPressed aqui
                             },
-                            
+                            child: Image.asset('assets/images/refreshcardapio.png')
                           ),
                         )
 
@@ -142,7 +163,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                     SizedBox(height: 25,),
                     Row(
                       children: [
-                        Text('Alimento 2'),
+                        Text(alimentos[1]),
                         Expanded(
                           child: Divider(
                             color: Color.fromRGBO(74, 74, 74, 1),
@@ -150,7 +171,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                             indent: 10, 
                             endIndent: 10, 
                           ),),
-                        Text('19 kcal'),
+                        Text('112 kcal'),
                         SizedBox(width: 10,),
                         SizedBox(
                           height: 20,
@@ -159,14 +180,14 @@ class Refeicao extends State<Refeicaodetalhes>{
                             onTap: () {
                               // Sua lógica de onPressed aqui
                             },
-                            
+                            child: Image.asset('assets/images/refreshcardapio.png')
                           ),
                         )],
                     ),
                     SizedBox(height: 25,),
                     Row(
                       children: [
-                        Text('Alimento 3'),
+                        Text(alimentos[2]),
                         Expanded(
                           child: Divider(
                             color: Color.fromRGBO(74, 74, 74, 1),
@@ -174,7 +195,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                             indent: 10, 
                             endIndent: 10, 
                           ),),
-                        Text('19 kcal'),
+                        Text('130 kcal'),
                         SizedBox(width: 10,),
                         SizedBox(
                           height: 20,
@@ -183,9 +204,91 @@ class Refeicao extends State<Refeicaodetalhes>{
                             onTap: () {
                               // Sua lógica de onPressed aqui
                             },
-                            
+                            child: Image.asset('assets/images/refreshcardapio.png')
                           ),
                         )],
+                    ),
+                    SizedBox(height: 50,),
+                    Container(
+                      child: PieChartSample(),),
+
+                    SizedBox(height: 15,),
+                    Row(
+                      children: [
+                        SizedBox(width: 5,),
+                        Material(
+                          elevation: 4, 
+                          shape: CircleBorder(),
+                          shadowColor: Colors.grey, 
+                          child: Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xff528540),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text('Proteínas',
+                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
+                        SizedBox(width: 70,),
+                        Material(
+                          elevation: 4, 
+                          shape: CircleBorder(),
+                          shadowColor: Colors.grey, 
+                          child: Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xffFFDE8D),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text('Carboidratos',
+                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        SizedBox(width: 5,),
+                        Material(
+                          elevation: 4, // Ajuste o valor da elevação conforme necessário
+                          shape: CircleBorder(),
+                          shadowColor: Colors.grey, // Cor da sombra
+                          child: Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xffDE7047),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text('Fibras',
+                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
+                        SizedBox(width: 91,),
+                        Material(
+                          elevation: 4, // Ajuste o valor da elevação conforme necessário
+                          shape: CircleBorder(),
+                          shadowColor: Colors.grey, // Cor da sombra
+                          child: Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xff4A4A4A),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text('Gorduras',
+                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
+                      ],
                     ),
                     ],
                   ),
@@ -205,4 +308,75 @@ class Refeicao extends State<Refeicaodetalhes>{
     );
 
 }
+}
+class PieChartSample extends StatelessWidget {
+  final bigger = false;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.2, // Define a proporção do gráfico
+      child: PieChart(
+        PieChartData(
+          sections: _createSampleData(),
+          // Outras configurações do gráfico aqui
+          centerSpaceRadius: 0,
+          sectionsSpace: 0,
+          borderData: FlBorderData(show: false)
+          
+        ),
+        
+      ),
+      
+    );
+  }
+
+  List<PieChartSectionData> _createSampleData() {
+    return [
+      PieChartSectionData(
+        value: 10,
+        title: '10%',
+        radius: 100,
+        color: Color(0xffDE7047),
+        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
+        
+        
+      ),
+      PieChartSectionData(
+        value: 40,
+        title: '40%',
+        radius: 100,
+        color: Color(0xff528540),
+        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
+        
+      ),
+      PieChartSectionData(
+        value: 35,
+        title: '35%',
+        radius: 100,
+        color: Color(0xffFFDE8D),
+        titleStyle: TextStyle(fontSize: 13, color: Colors.black),
+        
+      ),
+      PieChartSectionData(
+        value: 15,
+        title: '15%',
+        radius: 100,
+        color: Color(0xff4A4A4A),
+        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
+        
+      ),
+      
+      
+     
+
+      
+
+    ];
+    
+    
+}
+
+  
 }

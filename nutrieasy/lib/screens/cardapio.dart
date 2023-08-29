@@ -5,10 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/navbar.dart';
 import '../check-page.dart';
 import 'refeicao.dart';
+import 'substrefs.dart';
+
+
+
+
+
 //import 'perfil.dart';
 
 class Cardapio extends StatefulWidget {
   const Cardapio({super.key});
+  
 
   @override
   _Cardapiostate createState() => _Cardapiostate();
@@ -29,6 +36,8 @@ class _Cardapiostate extends State<Cardapio> {
     '19/08',
     '20/08'
   ];
+
+  
 
   final cafedamanha = 'Café da manhã';
   final lanchedamanha = 'Lanche da manhã';
@@ -64,7 +73,9 @@ class _Cardapiostate extends State<Cardapio> {
             alignment: Alignment.bottomLeft,
             icon: Icon(Icons.arrow_back),
             color: const Color.fromARGB(171, 0, 0, 0),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
@@ -202,7 +213,7 @@ class _Cardapiostate extends State<Cardapio> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Refeicaodetalhes(
-                                  titulo: lanchedamanha, data: dia)));
+                                  titulo: cafedamanha, data: dia,index: 0,)));
                     }
                   },
                   child: Container(
@@ -280,7 +291,7 @@ class _Cardapiostate extends State<Cardapio> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Refeicaodetalhes(
-                                  titulo: lanchedamanha, data: dia)));
+                                  titulo: lanchedamanha, data: dia,index: 0,)));
                     }
                   },
                   child: Container(
@@ -358,7 +369,7 @@ class _Cardapiostate extends State<Cardapio> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Refeicaodetalhes(
-                                  titulo: lanchedamanha, data: dia)));
+                                  titulo: almoco, data: dia,index: 1,)));
                     }
                   },
                   child: Container(
@@ -436,7 +447,7 @@ class _Cardapiostate extends State<Cardapio> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Refeicaodetalhes(
-                                  titulo: lanchedamanha, data: dia)));
+                                  titulo: lanchedatarde, data: dia,index: 1,)));
                     }
                   },
                   child: Container(

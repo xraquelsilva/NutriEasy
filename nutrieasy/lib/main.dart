@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromARGB(255, 24, 24, 24),
         fontFamily: 'Public Sans',
       ),
-      initialRoute: 'Check',
+      initialRoute: '/formsQtdRefeicoes',
       routes: {
         'TelaInicial': (context) => const InitialPage(),
         '/login': (context) => const LoginPage(),
