@@ -3,8 +3,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-//import 'navbar.dart';
+import 'dart:math';
 
 
 
@@ -25,7 +24,16 @@ class Refeicao extends State<Refeicaodetalhes>{
 
    late List<List<String>> refeicoes;
   late List<String> alimentos;
-  
+  late List<List> calorias;
+  late List caloria;
+  late int totalcalorias;
+  late int index;
+  late String alimentosalvo1= '';
+  late String alimentosalvo2= '';
+  late String alimentosalvo3= '';
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
 
   @override
   void initState() {
@@ -33,13 +41,33 @@ class Refeicao extends State<Refeicaodetalhes>{
     
     refeicoes = [
       ['Ovo cozido', 'Cuscuz', 'Tapioca'], 
-      ['Arroz', 'Feijão', 'Frango grelhado'], 
+      ['Banana', 'Omelete','Vitamina de abacate'],
+      ['Arroz', 'Feijão preto', 'Frango grelhado'], 
       // ... outras refeições
     ];
 
-    alimentos = refeicoes[widget.index];
+
+
+
+    index = widget.index;
+
+    
+    _Updatefoods();
+    
     
   }
+
+
+void _Updatefoods() {
+  
+  alimentos = refeicoes[index];
+  
+  
+}
+
+
+
+
 
 
   @override
@@ -113,7 +141,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                     ),),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 25,),
 
                 Container(
                   
@@ -135,166 +163,146 @@ class Refeicao extends State<Refeicaodetalhes>{
                   child: Column(
                     
                     children: [
-                      Row(
-                      children: [
-                        Text(alimentos[0]),
-                        Expanded(
-                          child: Divider(
-                            color: Color.fromRGBO(74, 74, 74, 1),
-                            thickness: 1.0,
-                            indent: 10, 
-                            endIndent: 10, 
-                          ),),
-                        Text('155 kcal'),
-                        SizedBox(width: 10,),
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Sua lógica de onPressed aqui
-                            },
-                            child: Image.asset('assets/images/refreshcardapio.png')
-                          ),
-                        )
-
-                        ],
-                    ),
-                    SizedBox(height: 25,),
                     Row(
                       children: [
-                        Text(alimentos[1]),
+                        Text(isChecked1? alimentosalvo1: alimentos[0] ),
                         Expanded(
                           child: Divider(
                             color: Color.fromRGBO(74, 74, 74, 1),
                             thickness: 1.0,
-                            indent: 10, 
-                            endIndent: 10, 
-                          ),),
-                        Text('112 kcal'),
-                        SizedBox(width: 10,),
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Sua lógica de onPressed aqui
-                            },
-                            child: Image.asset('assets/images/refreshcardapio.png')
+                            indent: 15,
+                            endIndent: 0,
                           ),
-                        )],
+                        ),
+                        SizedBox(width: 10),
+                        Checkbox(
+                          value: isChecked1,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked1 = value ?? false;
+                              alimentosalvo1 = alimentos[0];
+                            });
+                          },
+                          shape: CircleBorder(),
+                          activeColor: Color(0xFF528540)
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 25,),
-                    Row(
+                    SizedBox(height: 15,),
+                       Row(
                       children: [
-                        Text(alimentos[2]),
+                        Text(isChecked2? alimentosalvo2: alimentos[1] ),
                         Expanded(
                           child: Divider(
                             color: Color.fromRGBO(74, 74, 74, 1),
                             thickness: 1.0,
-                            indent: 10, 
-                            endIndent: 10, 
-                          ),),
-                        Text('130 kcal'),
-                        SizedBox(width: 10,),
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Sua lógica de onPressed aqui
-                            },
-                            child: Image.asset('assets/images/refreshcardapio.png')
+                            indent: 15,
+                            endIndent: 0,
                           ),
-                        )],
+                        ),
+                        SizedBox(width: 10),
+                        Checkbox(
+                          value: isChecked2,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked2 = value ?? false;
+                              alimentosalvo2 = alimentos[1];
+                            });
+                          },
+                          shape: CircleBorder(),
+                          activeColor: Color(0xFF528540)
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 50,),
-                    Container(
-                      child: PieChartSample(),),
-
                     SizedBox(height: 15,),
                     Row(
                       children: [
-                        SizedBox(width: 5,),
-                        Material(
-                          elevation: 4, 
-                          shape: CircleBorder(),
-                          shadowColor: Colors.grey, 
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xff528540),
-                            ),
+                        Text(isChecked3? alimentosalvo3: alimentos[2] ),
+                        Expanded(
+                          child: Divider(
+                            color: Color.fromRGBO(74, 74, 74, 1),
+                            thickness: 1.0,
+                            indent: 15,
+                            endIndent: 0,
                           ),
                         ),
-                        SizedBox(width: 5,),
-                        Text('Proteínas',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
-                        SizedBox(width: 70,),
-                        Material(
-                          elevation: 4, 
+                        SizedBox(width: 10),
+                        Checkbox(
+                          value: isChecked3,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked3 = value ?? false;
+                              alimentosalvo3 = alimentos[2];
+                            });
+                          },
                           shape: CircleBorder(),
-                          shadowColor: Colors.grey, 
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xffFFDE8D),
-                            ),
-                          ),
+                          activeColor: Color(0xFF528540)
                         ),
-                        SizedBox(width: 5,),
-                        Text('Carboidratos',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
                       ],
                     ),
-                    SizedBox(height: 10,),
-                    Row(
-                      children: [
-                        SizedBox(width: 5,),
-                        Material(
-                          elevation: 4, // Ajuste o valor da elevação conforme necessário
-                          shape: CircleBorder(),
-                          shadowColor: Colors.grey, // Cor da sombra
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xffDE7047),
-                            ),
+                    SizedBox(height: 75,),
+
+                    Text('Atualizar refeições',
+                    style:TextStyle(
+                      color: Color.fromARGB(176, 0, 0, 0),
+                      fontSize: 15,
+                      fontFamily: 'Public Sans',
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.5,)),
+
+                    SizedBox(height: 5,),
+
+                    Divider(thickness: 2,color: Color(0xFF528540),
+                    indent: 20,endIndent: 20,),
+
+                    SizedBox(height: 20,),
+
+                    Container(
+                      height: 50,
+                      width: 170,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Color(0xFFCDDE47),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            index= Random().nextInt(3);
+                          });
+                          _Updatefoods();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFCDDE47),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        SizedBox(width: 5,),
-                        Text('Fibras',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
-                        SizedBox(width: 91,),
-                        Material(
-                          elevation: 4, // Ajuste o valor da elevação conforme necessário
-                          shape: CircleBorder(),
-                          shadowColor: Colors.grey, // Cor da sombra
-                          child: Container(
-                            height: 15,
-                            width: 15,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xff4A4A4A),
-                            ),
+                        child: Text(
+                          'Atualizar ',
+                          style: TextStyle(
+                            color: Color(0xFF528540),
+                            fontSize: 20,
+                            fontFamily: 'Public Sans',
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1,
                           ),
                         ),
-                        SizedBox(width: 5,),
-                        Text('Gorduras',
-                        style:TextStyle(fontWeight: FontWeight.w500,fontSize: 14,letterSpacing: 0.1) ,),
-                      ],
-                    ),
+                      ),
+                    )
+
+
+
+
+
+
+
+
+
+
+                    
                     ],
                   ),
                 )
-
-
 
               ],
              )  )),
@@ -308,75 +316,4 @@ class Refeicao extends State<Refeicaodetalhes>{
     );
 
 }
-}
-class PieChartSample extends StatelessWidget {
-  final bigger = false;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.2, // Define a proporção do gráfico
-      child: PieChart(
-        PieChartData(
-          sections: _createSampleData(),
-          // Outras configurações do gráfico aqui
-          centerSpaceRadius: 0,
-          sectionsSpace: 0,
-          borderData: FlBorderData(show: false)
-          
-        ),
-        
-      ),
-      
-    );
-  }
-
-  List<PieChartSectionData> _createSampleData() {
-    return [
-      PieChartSectionData(
-        value: 10,
-        title: '10%',
-        radius: 100,
-        color: Color(0xffDE7047),
-        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
-        
-        
-      ),
-      PieChartSectionData(
-        value: 40,
-        title: '40%',
-        radius: 100,
-        color: Color(0xff528540),
-        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
-        
-      ),
-      PieChartSectionData(
-        value: 35,
-        title: '35%',
-        radius: 100,
-        color: Color(0xffFFDE8D),
-        titleStyle: TextStyle(fontSize: 13, color: Colors.black),
-        
-      ),
-      PieChartSectionData(
-        value: 15,
-        title: '15%',
-        radius: 100,
-        color: Color(0xff4A4A4A),
-        titleStyle: TextStyle(fontSize: 13, color: const Color(0xffffffff)),
-        
-      ),
-      
-      
-     
-
-      
-
-    ];
-    
-    
-}
-
-  
 }

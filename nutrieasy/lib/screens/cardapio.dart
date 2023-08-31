@@ -77,6 +77,7 @@ class _Cardapiostate extends State<Cardapio> {
               Navigator.pop(context);
             },
           ),
+          
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -143,6 +144,7 @@ class _Cardapiostate extends State<Cardapio> {
                 },
               ),
             ),
+           
             SizedBox(
               height: 10,
             ),
@@ -291,7 +293,7 @@ class _Cardapiostate extends State<Cardapio> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Refeicaodetalhes(
-                                  titulo: lanchedamanha, data: dia,index: 0,)));
+                                  titulo: lanchedamanha, data: dia,index: 1,)));
                     }
                   },
                   child: Container(
@@ -369,7 +371,7 @@ class _Cardapiostate extends State<Cardapio> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Refeicaodetalhes(
-                                  titulo: almoco, data: dia,index: 1,)));
+                                  titulo: almoco, data: dia,index: 2,)));
                     }
                   },
                   child: Container(
@@ -519,3 +521,8 @@ class _Cardapiostate extends State<Cardapio> {
 
   }
 }
+
+
+
+
+

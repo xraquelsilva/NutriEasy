@@ -151,7 +151,7 @@ class _SubstRefState extends State<SubstRef> {
                 onPressed: () {
                   Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) =>  BottomTabBar(mealnames: mealnames,)),
+                  MaterialPageRoute(builder: (context) =>  const BottomTabBar()),
                 );
                 },
                 style: ElevatedButton.styleFrom(

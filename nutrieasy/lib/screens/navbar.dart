@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cardapio.dart';
 import 'package:nutrieasy/screens/home-page.dart';
 import 'perfil.dart';
-import 'substrefs.dart';
+
 
 class BottomTabBar extends StatefulWidget {
 
-  final List mealnames;
   
-  BottomTabBar({this.mealnames = const ['Café da manhã','Almoço','Lanche da tarde','Jantar'] , Key? key}) : super(key: key);
+  const BottomTabBar ({Key? key}) : super(key: key);
 
   
 
