@@ -38,4 +38,28 @@ class UserController {
     }
     return false;
   }
+
+  Future<bool> registerWithEmailAndPassword(
+      String email, String password, String name) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      if (userCredential.user != null) {
+        await userCredential.user!.updateDisplayName(name);
+        loginUser(
+          userCredential.user!.uid,
+          name,
+        );
+        return true;
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return false;
+      } else if (e.code == 'email-already-in-use') {
+        return false;
+      }
+    }
+    return false;
+  }
 }
