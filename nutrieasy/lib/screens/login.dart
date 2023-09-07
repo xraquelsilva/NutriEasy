@@ -1,25 +1,20 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cadastro.dart';
-//import 'package:nutrieasy/screens/cardapio.dart';
-import 'package:nutrieasy/screens/refeicao.dart';
 import 'navbar.dart';
-
-import 'initial-page.dart';
-import 'home-page.dart';
-
+import 'package:nutrieasy/controllers/UserController.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _firebaseAuth = FirebaseAuth.instance;
+
+  final UserController userController = UserController();
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     elevation: 4,
                   ),
                   onPressed: () {
-                    login();
+                    login(context);
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(
@@ -213,33 +208,24 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  login() async {
-    try {
-      UserCredential userCredential =
-          await _firebaseAuth.signInWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text);
-      if (userCredential != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) =>  BottomTabBar()),
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Usuário não encontrado'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Senha inválida!'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-      }
-    }
+  login(BuildContext context) async {
+  bool loginSuccessful = await userController.loginWithEmailAndPassword(
+    _emailController.text,
+    _passwordController.text,
+  );
+
+  if (loginSuccessful) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const BottomTabBar()),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(userController.loginErrorMessage ?? 'Erro desconhecido'),
+        backgroundColor: Colors.redAccent,
+      ),
+    );
   }
+}
 }

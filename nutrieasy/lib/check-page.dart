@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:nutrieasy/screens/home-page.dart';
+import 'package:nutrieasy/models/UserModel.dart';
+import 'package:nutrieasy/screens/cardapio.dart';
 import 'package:nutrieasy/screens/login.dart';
 
 class CheckPage extends StatefulWidget {
@@ -15,6 +15,7 @@ class CheckPage extends StatefulWidget {
 class _CheckPageState extends State<CheckPage> {
 
   StreamSubscription? streamSubscription;
+  UserModel? loggedUser;
 
   @override
   void initState() {
@@ -25,10 +26,8 @@ class _CheckPageState extends State<CheckPage> {
         if(user == null) {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
         }else {
-          FirebaseAuth.instance.signOut();
-          //aqui vai a pagina principal
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
-          // print('usuário logado');
+          loggedUser = UserModel(id: user.uid, username: user.displayName?? "");
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Cardapio()));
         }
       });
   }
