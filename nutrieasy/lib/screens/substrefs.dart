@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cardapio.dart';
+import 'navbar.dart';
+
 
 class SubstRef extends StatefulWidget {
   final List<String> mealNames;
@@ -19,9 +21,11 @@ class SubstRef extends StatefulWidget {
 class _SubstRefState extends State<SubstRef> {
   int selectedMealIndex = 0;
   int selectedOptionIndex = 0;
+  
 
   @override
   Widget build(BuildContext context) {
+    final mealnames=widget.mealNames;
     final selectedMealName = widget.mealNames[selectedMealIndex];
     final selectedOptionFoods =
         widget.mealFoods[selectedMealIndex][selectedOptionIndex];
@@ -142,12 +146,12 @@ class _SubstRefState extends State<SubstRef> {
                   ),
                 ),
               ),
-
+              
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Cardapio()),
+                  MaterialPageRoute(builder: (context) =>  const BottomTabBar()),
                 );
                 },
                 style: ElevatedButton.styleFrom(
@@ -169,14 +173,20 @@ class _SubstRefState extends State<SubstRef> {
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.96,
                   ),
+                  
                 ),
             ),
+            
             ],
+          
           ),
         ),
       ),
     );
   }
+
+
+
 
   // void CreateMeals() {
   //   DatabaseReference databaseReference = FirebaseDatabase.instance.reference().child('cardapio');

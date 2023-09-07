@@ -3,8 +3,7 @@
 
 
 import 'package:flutter/material.dart';
-// import 'package:fl_chart/fl_chart.dart';
-//import 'navbar.dart';
+import 'dart:math';
 
 
 
@@ -13,14 +12,63 @@ class Refeicaodetalhes extends StatefulWidget{
   
   final String titulo;
   final String data;
+  final int index;
 
-  Refeicaodetalhes({required this.titulo, required this.data, Key? key}) : super(key: key);
+  Refeicaodetalhes({required this.titulo, required this.data, required this.index, Key? key}) : super(key: key);
 
   @override
   State<Refeicaodetalhes> createState() => Refeicao();
 }
 
 class Refeicao extends State<Refeicaodetalhes>{
+
+   late List<List<String>> refeicoes;
+  late List<String> alimentos;
+  late List<List> calorias;
+  late List caloria;
+  late int totalcalorias;
+  late int index;
+  late String alimentosalvo1= '';
+  late String alimentosalvo2= '';
+  late String alimentosalvo3= '';
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
+
+  @override
+  void initState() {
+    super.initState();
+    
+    refeicoes = [
+      ['Ovo cozido', 'Cuscuz', 'Tapioca'], 
+      ['Banana', 'Omelete','Vitamina de abacate'],
+      ['Arroz', 'Feijão preto', 'Frango grelhado'], 
+      // ... outras refeições
+    ];
+
+
+
+
+    index = widget.index;
+
+    
+    _Updatefoods();
+    
+    
+  }
+
+
+void _Updatefoods() {
+  
+  alimentos = refeicoes[index];
+  
+  
+}
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +94,7 @@ class Refeicao extends State<Refeicaodetalhes>{
           ), ),
           
           elevation: 0,
+          
           
           leading: IconButton(
             padding: EdgeInsets.all(15),
@@ -92,7 +141,7 @@ class Refeicao extends State<Refeicaodetalhes>{
                     ),),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 25,),
 
                 Container(
                   
@@ -114,84 +163,146 @@ class Refeicao extends State<Refeicaodetalhes>{
                   child: Column(
                     
                     children: [
-                      Row(
+                    Row(
                       children: [
-                        Text('Alimento 1'),
+                        Text(isChecked1? alimentosalvo1: alimentos[0] ),
                         Expanded(
                           child: Divider(
                             color: Color.fromRGBO(74, 74, 74, 1),
                             thickness: 1.0,
-                            indent: 10, 
-                            endIndent: 10, 
-                          ),),
-                        Text('19 kcal'),
-                        SizedBox(width: 10,),
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Sua lógica de onPressed aqui
-                            },
-                            
+                            indent: 15,
+                            endIndent: 0,
                           ),
-                        )
+                        ),
+                        SizedBox(width: 10),
+                        Checkbox(
+                          value: isChecked1,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked1 = value ?? false;
+                              alimentosalvo1 = alimentos[0];
+                            });
+                          },
+                          shape: CircleBorder(),
+                          activeColor: Color(0xFF528540)
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15,),
+                       Row(
+                      children: [
+                        Text(isChecked2? alimentosalvo2: alimentos[1] ),
+                        Expanded(
+                          child: Divider(
+                            color: Color.fromRGBO(74, 74, 74, 1),
+                            thickness: 1.0,
+                            indent: 15,
+                            endIndent: 0,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Checkbox(
+                          value: isChecked2,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked2 = value ?? false;
+                              alimentosalvo2 = alimentos[1];
+                            });
+                          },
+                          shape: CircleBorder(),
+                          activeColor: Color(0xFF528540)
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15,),
+                    Row(
+                      children: [
+                        Text(isChecked3? alimentosalvo3: alimentos[2] ),
+                        Expanded(
+                          child: Divider(
+                            color: Color.fromRGBO(74, 74, 74, 1),
+                            thickness: 1.0,
+                            indent: 15,
+                            endIndent: 0,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Checkbox(
+                          value: isChecked3,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked3 = value ?? false;
+                              alimentosalvo3 = alimentos[2];
+                            });
+                          },
+                          shape: CircleBorder(),
+                          activeColor: Color(0xFF528540)
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 75,),
 
-                        ],
-                    ),
-                    SizedBox(height: 25,),
-                    Row(
-                      children: [
-                        Text('Alimento 2'),
-                        Expanded(
-                          child: Divider(
-                            color: Color.fromRGBO(74, 74, 74, 1),
-                            thickness: 1.0,
-                            indent: 10, 
-                            endIndent: 10, 
-                          ),),
-                        Text('19 kcal'),
-                        SizedBox(width: 10,),
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Sua lógica de onPressed aqui
-                            },
-                            
+                    Text('Atualizar refeições',
+                    style:TextStyle(
+                      color: Color.fromARGB(176, 0, 0, 0),
+                      fontSize: 15,
+                      fontFamily: 'Public Sans',
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.5,)),
+
+                    SizedBox(height: 5,),
+
+                    Divider(thickness: 2,color: Color(0xFF528540),
+                    indent: 20,endIndent: 20,),
+
+                    SizedBox(height: 20,),
+
+                    Container(
+                      height: 50,
+                      width: 170,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Color(0xFFCDDE47),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            index= Random().nextInt(3);
+                          });
+                          _Updatefoods();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFCDDE47),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        )],
-                    ),
-                    SizedBox(height: 25,),
-                    Row(
-                      children: [
-                        Text('Alimento 3'),
-                        Expanded(
-                          child: Divider(
-                            color: Color.fromRGBO(74, 74, 74, 1),
-                            thickness: 1.0,
-                            indent: 10, 
-                            endIndent: 10, 
-                          ),),
-                        Text('19 kcal'),
-                        SizedBox(width: 10,),
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: GestureDetector(
-                            onTap: () {
-                              // Sua lógica de onPressed aqui
-                            },
-                            
+                        ),
+                        child: Text(
+                          'Atualizar ',
+                          style: TextStyle(
+                            color: Color(0xFF528540),
+                            fontSize: 20,
+                            fontFamily: 'Public Sans',
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 1,
                           ),
-                        )],
-                    ),
+                        ),
+                      ),
+                    )
+
+
+
+
+
+
+
+
+
+
+                    
                     ],
                   ),
                 )
-
-
 
               ],
              )  )),
