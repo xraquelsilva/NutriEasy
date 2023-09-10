@@ -3,26 +3,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/login.dart';
-import 'package:nutrieasy/screens/navbar.dart';
-import '../check-page.dart';
+import '../controllers/MealController.dart';
 import 'refeicao.dart';
-import 'substrefs.dart';
-
-
-
-
-
-//import 'perfil.dart';
 
 class Cardapio extends StatefulWidget {
-  const Cardapio({super.key});
-  
+  const Cardapio({Key? key}) : super(key: key);
 
   @override
-  _Cardapiostate createState() => _Cardapiostate();
+  _CardapioState createState() => _CardapioState();
 }
 
-class _Cardapiostate extends State<Cardapio> {
+class _CardapioState extends State<Cardapio> {
+  late MealController _controller;
   final _firebaseAuth = FirebaseAuth.instance;
 
   String? selectedDate;
@@ -35,21 +27,45 @@ class _Cardapiostate extends State<Cardapio> {
     '17/08',
     '18/08',
     '19/08',
-    '20/08'
+    '20/08',
   ];
 
-  
-
-  final cafedamanha = 'Café da manhã';
-  final lanchedamanha = 'Lanche da manhã';
-  final almoco = 'Almoço';
-  final lanchedatarde = 'Lanche da tarde';
+  @override
+  void initState() {
+    super.initState();
+    _controller = MealController();
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Colors.white,
+    Future<List<String>> listNames =
+        _controller.getRefeicoesList(_firebaseAuth.currentUser!.uid);
+    return FutureBuilder<List<String>>(
+      future: listNames,
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            body: Center(
+              child: Text('Erro: ${snapshot.error}'),
+            ),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Scaffold(
+            body: Center(
+              child: Text('A lista está vazia.'),
+            ),
+          );
+        } else {
+          List<String> listNamesData = snapshot.data!;
+          return Scaffold(
+            backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: AppBar(
@@ -93,15 +109,15 @@ class _Cardapiostate extends State<Cardapio> {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Container(
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                              Container(
               width: 115,
               height: 28,
               child: ValueListenableBuilder(
@@ -185,345 +201,121 @@ class _Cardapiostate extends State<Cardapio> {
                 );
               }).toList(),
             ),
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              height: 70,
-              width: 350,
-              child: GestureDetector(
-                  onTap: () {
-                    if (dia == Null || dia.isEmpty) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                title: Text('Alerta!'),
-                                content: Text('Selecione uma data'),
-                                actions: <Widget>[
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Fechar'))
-                                ]);
-                          });
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Refeicaodetalhes(
-                                  titulo: cafedamanha, data: dia,index: 0,)));
-                    }
-                  },
-                  child: Container(
-                    height: 70,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 252, 252, 252).withOpacity(0.4),
-                            Colors.transparent,
-                          ],
-                          begin: Alignment
-                              .topCenter, // Posição inicial do gradiente
-                          end: Alignment
-                              .bottomCenter, // Posição final do gradiente
-                          stops: [
-                            0.0,
-                            0.6
-                          ], // Pode ajustar os pontos de parada conforme necessário
-                          tileMode: TileMode.clamp,
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/ref3.png'),
-                          fit: BoxFit.cover,
-                        )),
-                    child: SizedBox(
-                      height: 70,
-                      width: 350,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30),
-                          child: Text(
-                            cafedamanha,
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromRGBO(74, 74, 74, 1),
-                                fontFamily: 'Public Sans',
-                                fontWeight: FontWeight.w500),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: listNamesData.length,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(height: 10); // Espaço vertical de 10 pixels entre os itens
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        String mealName = listNamesData[index];
+                        return GestureDetector(
+                          onTap: () {
+                            if (dia == null || dia.isEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    title: Text('Alerta!'),
+                                    content: Text('Selecione uma data'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Fechar'),
+                                      )
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Refeicaodetalhes(
+                                    titulo: mealName,
+                                    data: dia,
+                                    index: index,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            height: 70,
+                            width: 350,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color.fromARGB(255, 252, 252, 252)
+                                      .withOpacity(0.4),
+                                  Colors.transparent,
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                stops: [0.0, 0.6],
+                              ),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/ref${index + 1}.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+
+                                child: Text(
+                                  mealName,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromRGBO(74, 74, 74, 1),
+                                    fontFamily: 'Public Sans',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
-                  )),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      logout();
+                    },
+                    child: Text('Sair'),
+                  )
+                ],
+              ),
             ),
-            SizedBox(
-              height: 40,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              height: 70,
-              width: 350,
-              child: GestureDetector(
-                  onTap: () {
-                    if (dia == Null || dia.isEmpty) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                title: Text('Alerta!'),
-                                content: Text('Selecione uma data'),
-                                actions: <Widget>[
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Fechar'))
-                                ]);
-                          });
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Refeicaodetalhes(
-                                  titulo: lanchedamanha, data: dia,index: 1,)));
-                    }
-                  },
-                  child: Container(
-                    height: 70,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 252, 252, 252).withOpacity(0.4),
-                            Colors.transparent,
-                          ],
-                          begin: Alignment
-                              .topCenter, // Posição inicial do gradiente
-                          end: Alignment
-                              .bottomCenter, // Posição final do gradiente
-                          stops: [
-                            0.0,
-                            0.6
-                          ], // Pode ajustar os pontos de parada conforme necessário
-                          tileMode: TileMode.clamp,
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/ref4.png'),
-                          fit: BoxFit.cover,
-                        )),
-                    child: SizedBox(
-                      height: 70,
-                      width: 350,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30),
-                          child: Text(
-                            'Lanche da manhã',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromRGBO(74, 74, 74, 1),
-                                fontFamily: 'Public Sans',
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              height: 70,
-              width: 350,
-              child: GestureDetector(
-                  onTap: () {
-                    if (dia == Null || dia.isEmpty) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                title: Text('Alerta!'),
-                                content: Text('Selecione uma data'),
-                                actions: <Widget>[
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Fechar'))
-                                ]);
-                          });
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Refeicaodetalhes(
-                                  titulo: almoco, data: dia,index: 2,)));
-                    }
-                  },
-                  child: Container(
-                    height: 70,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 252, 252, 252).withOpacity(0.4),
-                            Colors.transparent,
-                          ],
-                          begin: Alignment
-                              .topCenter, // Posição inicial do gradiente
-                          end: Alignment
-                              .bottomCenter, // Posição final do gradiente
-                          stops: [
-                            0.0,
-                            0.6
-                          ], // Pode ajustar os pontos de parada conforme necessário
-                          tileMode: TileMode.clamp,
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/ref1.png'),
-                          fit: BoxFit.cover,
-                        )),
-                    child: SizedBox(
-                      height: 70,
-                      width: 350,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30),
-                          child: Text(
-                            'Almoço',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromRGBO(74, 74, 74, 1),
-                                fontFamily: 'Public Sans',
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              height: 70,
-              width: 350,
-              child: GestureDetector(
-                  onTap: () {
-                    if (dia == Null || dia.isEmpty) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                title: Text('Alerta!'),
-                                content: Text('Selecione uma data'),
-                                actions: <Widget>[
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Fechar'))
-                                ]);
-                          });
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Refeicaodetalhes(
-                                  titulo: lanchedatarde, data: dia,index: 1,)));
-                    }
-                  },
-                  child: Container(
-                    height: 70,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 252, 252, 252).withOpacity(0.4),
-                            Colors.transparent,
-                          ],
-                          begin: Alignment
-                              .topCenter, // Posição inicial do gradiente
-                          end: Alignment
-                              .bottomCenter, // Posição final do gradiente
-                          stops: [
-                            0.0,
-                            0.6
-                          ], // Pode ajustar os pontos de parada conforme necessário
-                          tileMode: TileMode.clamp,
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/ref2.png'),
-                          fit: BoxFit.cover,
-                        )),
-                    child: SizedBox(
-                      height: 70,
-                      width: 350,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30),
-                          child: Text(
-                            'Lanche da tarde',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromRGBO(74, 74, 74, 1),
-                                fontFamily: 'Public Sans',
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )),
-            ),
-            TextButton(
-              onPressed: () {
-                logout();
-              }, 
-              child: Text('Sair')
-            )
-          ],
-        ),
-      ),
-      // bottomNavigationBar: BottomTabBar(),
+          );
+        }
+      },
     );
   }
 
-  logout () async {
-    await _firebaseAuth.signOut().then(
-      (user) => Navigator.pushReplacement(
-        context as BuildContext, 
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-          ),
-        ),
+  void logout() async {
+    await _firebaseAuth.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginPage(),
+      ),
     );
-
   }
 }
-
-
-
-
-
