@@ -18,8 +18,7 @@ class MealController {
       final String userId = user.uid;
 
       // Verifica se o usuário já possui um cardápio
-      final DatabaseEvent event = await FirebaseDatabase.instance
-          .reference()
+      final DatabaseEvent event = await _databaseReference
           .child('cardapios')
           .child(userId)
           .once();
@@ -31,12 +30,13 @@ class MealController {
       }
 
       // Cria um novo cardápio
-      DatabaseReference menuRef =
-          FirebaseDatabase.instance.reference().child('cardapios').child(userId);
+      DatabaseReference menuRef = _databaseReference
+          .child('cardapios')
+          .child(userId);
 
       // Obtém o próximo índice disponível para a refeição
       // int nextMealIndex = dataSnapshot.value[''];
-      
+
       await menuRef.set({'user_id': userId});
 
       // Adicione as refeições ao cardápio
@@ -53,11 +53,9 @@ class MealController {
     }
   }
 
-  Future<String> findMealByUserIdAndName(
-      String userId, String mealName) async {
+  Future<String> findMealByUserIdAndName(String userId, String mealName) async {
     try {
-      DatabaseReference menuRef = FirebaseDatabase.instance
-          .reference()
+      DatabaseReference menuRef = _databaseReference
           .child('cardapios')
           .child(userId)
           .child('refeicoes');
@@ -91,22 +89,16 @@ class MealController {
   Future<bool> addOptionsToMeal(
       String userId, String mealId, List<List<String>> options) async {
     try {
-      DatabaseReference mealRef = FirebaseDatabase.instance
-          .reference()
+      DatabaseReference mealRef = _databaseReference
           .child('cardapios')
           .child(userId)
           .child('refeicoes')
           .child(mealId)
           .child('opcoes');
 
-      // Adiciona as opções à refeição
-
-
-    for (int i = 0; i < options.length; i++) {
-      await mealRef.child('opcao_$i').set(options[i]);
-
-    }
-
+      for (int i = 0; i < options.length; i++) {
+        await mealRef.child('opcao_$i').set(options[i]);
+      }
       return true;
     } catch (e) {
       print('Erro ao adicionar opções à refeição: $e');
@@ -114,4 +106,40 @@ class MealController {
     }
   }
 
+  Future<List<String>> getRefeicoesList(String userId) async {
+    final DatabaseEvent mealRef = await 
+        _databaseReference
+        .child('cardapios')
+        .child(userId)
+        .child('refeicoes').once();
+
+    try {
+      DataSnapshot snapshot = mealRef.snapshot;
+
+      if (snapshot.value != null) {
+        Map<dynamic, dynamic>? values = snapshot.value as Map<dynamic, dynamic>?;
+        List<String> refeicoesList = [];
+
+        Map? meals = values;
+
+        for (var entry in meals!.entries) {
+          String mealId = entry.key;
+          var mealData = entry.value;
+
+          String name = mealData['nome'];
+
+          refeicoesList.add(name);
+      }
+
+      List<String> mealsName = refeicoesList;
+
+        return mealsName;
+      } else {
+        return []; // Retornar uma lista vazia se nenhum dado for encontrado.
+      }
+    } catch (error) {
+      print("Erro ao buscar dados: $error");
+      return []; // Tratar o erro retornando uma lista vazia.
+    }
+  }
 }
