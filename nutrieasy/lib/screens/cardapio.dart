@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrieasy/screens/login.dart';
 import 'package:nutrieasy/screens/navbar.dart';
 import '../check-page.dart';
 import 'refeicao.dart';
@@ -514,7 +515,7 @@ class _Cardapiostate extends State<Cardapio> {
       (user) => Navigator.pushReplacement(
         context as BuildContext, 
         MaterialPageRoute(
-          builder: (context) => const CheckPage(),
+          builder: (context) => const LoginPage(),
           ),
         ),
     );

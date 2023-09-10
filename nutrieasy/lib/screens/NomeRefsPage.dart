@@ -1,5 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:nutrieasy/models/MealModel.dart';
 import 'package:nutrieasy/screens/FoodEntryPage.dart';
+
+import '../controllers/MealController.dart';
 
 class NomeRefsPage extends StatefulWidget {
   final int numberOfMeals;
@@ -12,11 +17,15 @@ class NomeRefsPage extends StatefulWidget {
 
 class _NomeRefsPageState extends State<NomeRefsPage> {
   late List<String> textFieldValues;
+  late MealController _controller; 
+  late MealModel _model; 
 
   @override
   void initState() {
     super.initState();
     textFieldValues = List.generate(widget.numberOfMeals, (index) => '');
+    _model = MealModel();
+    _controller = MealController();
   }
 
   @override
@@ -103,12 +112,14 @@ class _NomeRefsPageState extends State<NomeRefsPage> {
             Container(
               margin: const EdgeInsets.all(20),
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                   _model.mealNames = textFieldValues;
+                  String userId = await _controller.createMenuWithMeals(_model.mealNames);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          FoodEntryPage(mealNames: textFieldValues),
+                          FoodEntryPage(mealNames: textFieldValues, userId: userId,),
                     ),
                   );
                 },

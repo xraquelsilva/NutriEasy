@@ -1,11 +1,12 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/substrefs.dart';
+import '../controllers/MealController.dart';
 
 class FoodEntryPage extends StatefulWidget {
   final List<String> mealNames;
 
-  const FoodEntryPage({Key? key, required this.mealNames}) : super(key: key);
+  const FoodEntryPage({Key? key, required this.mealNames, required String userId}) : super(key: key);
 
   @override
   _FoodEntryPageState createState() => _FoodEntryPageState();
@@ -15,30 +16,16 @@ class FoodEntryPage extends StatefulWidget {
 class _FoodEntryPageState extends State<FoodEntryPage> {
   int currentMealIndex = 0;
   List<List<List<String>>> mealOptions = [];
+  late MealController _controller;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
     mealOptions = List.generate(widget.mealNames.length, (_) => [[]]);
+    _controller = MealController();
   }
 
-  Future<void> saveOptionsToFirebase(List<List<List<String>>> mealOptions) async {
-    DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
-    
-    // Iterar pelas refeições e opções
-    for (int mealIndex = 0; mealIndex < mealOptions.length; mealIndex++) {
-      for (int optionIndex = 0; optionIndex < mealOptions[mealIndex].length; optionIndex++) {
-        List<String> foods = mealOptions[mealIndex][optionIndex];
-        
-        // Enviar as opções para o Firebase
-        await databaseReference.child('refeicoes').push().set({
-          'mealIndex': mealIndex,
-          'optionIndex': optionIndex,
-          'foods': foods,
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,8 +152,7 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                saveOptionsToFirebase(mealOptions);
+              onPressed: () async {
                 _nextMeal();
 
               },
@@ -257,18 +243,23 @@ class _FoodEntryPageState extends State<FoodEntryPage> {
   }
 
   // Função para alternar para a próxima refeição
-  void _nextMeal() {
+  Future<void> _nextMeal() async {
+
     if (currentMealIndex < widget.mealNames.length - 1) {
       setState(() {
         currentMealIndex++;
       });
     } else {
+      final user = _auth.currentUser;
       List<List<List<String>>> mealFoods = [];
       for (int i = 0; i < mealOptions.length; i++) {
         List<List<String>> optionFoods = [];
         for (int j = 0; j < mealOptions[i].length; j++) {
           optionFoods.add(mealOptions[i][j]);
         }
+        var mealId = _controller.findMealByUserIdAndName(user!.uid, widget.mealNames[i]) ;
+        String mealIdString = await mealId;
+        await _controller.addOptionsToMeal(user.uid, mealIdString , optionFoods);
         mealFoods.add(optionFoods);
       }
 
