@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:nutrieasy/models/RefeicaoOptionModel.dart';
 
 class MealController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,10 +21,8 @@ class MealController {
       final String userId = user.uid;
 
       // Verifica se o usuário já possui um cardápio
-      final DatabaseEvent event = await _databaseReference
-          .child('cardapios')
-          .child(userId)
-          .once();
+      final DatabaseEvent event =
+          await _databaseReference.child('cardapios').child(userId).once();
 
       final DataSnapshot dataSnapshot = event.snapshot;
 
@@ -30,9 +31,8 @@ class MealController {
       }
 
       // Cria um novo cardápio
-      DatabaseReference menuRef = _databaseReference
-          .child('cardapios')
-          .child(userId);
+      DatabaseReference menuRef =
+          _databaseReference.child('cardapios').child(userId);
 
       // Obtém o próximo índice disponível para a refeição
       // int nextMealIndex = dataSnapshot.value[''];
@@ -107,17 +107,18 @@ class MealController {
   }
 
   Future<List<String>> getRefeicoesList(String userId) async {
-    final DatabaseEvent mealRef = await 
-        _databaseReference
+    final DatabaseEvent mealRef = await _databaseReference
         .child('cardapios')
         .child(userId)
-        .child('refeicoes').once();
+        .child('refeicoes')
+        .once();
 
     try {
       DataSnapshot snapshot = mealRef.snapshot;
 
       if (snapshot.value != null) {
-        Map<dynamic, dynamic>? values = snapshot.value as Map<dynamic, dynamic>?;
+        Map<dynamic, dynamic>? values =
+            snapshot.value as Map<dynamic, dynamic>?;
         List<String> refeicoesList = [];
 
         Map? meals = values;
@@ -129,9 +130,9 @@ class MealController {
           String name = mealData['nome'];
 
           refeicoesList.add(name);
-      }
+        }
 
-      List<String> mealsName = refeicoesList;
+        List<String> mealsName = refeicoesList;
 
         return mealsName;
       } else {
@@ -142,4 +143,60 @@ class MealController {
       return []; // Tratar o erro retornando uma lista vazia.
     }
   }
+
+Future<List<RefeicaoOptionModel>> findMealOptions(String userId, String mealName, bool update) async {
+  try {
+    String mealId = await findMealByUserIdAndName(userId, mealName);
+
+    if (mealId.isEmpty) {
+      // A refeição não foi encontrada, retornar uma lista vazia
+      return [];
+    }
+
+    DatabaseReference mealRef = _databaseReference
+        .child('cardapios')
+        .child(userId)
+        .child('refeicoes')
+        .child(mealId)
+        .child('opcoes');
+
+    DatabaseEvent event = await mealRef.once();
+    DataSnapshot dataSnapshot = event.snapshot;
+    Map<dynamic, dynamic> data = dataSnapshot.value as Map<dynamic, dynamic>;
+
+    List<RefeicaoOptionModel> mealOptions = [];
+
+    if (data != null) {
+      Map options = data;
+
+      // Percorre as opções de refeição
+      if (update){
+        Random random = Random();
+        for (var entry in options.entries) {
+          for (int x = 0; x < entry.value.length; x++) {
+            String optionName = entry.value[x];
+            String optionId = "generate_your_id_here"; // Defina como desejar
+            if (random.nextInt(options.length) == 0) {
+              mealOptions.add(RefeicaoOptionModel(name: optionName));
+            }
+          }
+        }
+      } else {
+        for (var entry in options.entries) {
+          for (int x = 0; x < entry.value.length; x++) {
+            String optionName = entry.value[x];
+            String optionId = "generate_your_id_here"; // Defina como desejar
+            mealOptions.add(RefeicaoOptionModel(name: optionName));
+          }
+        }
+      }
+    }
+
+    return mealOptions;
+  } catch (e) {
+    print('Erro ao encontrar opções de refeição: $e');
+    return [];
+  }
+}
+
 }

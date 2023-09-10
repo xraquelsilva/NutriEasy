@@ -239,7 +239,7 @@ class _CardapioState extends State<Cardapio> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Refeicaodetalhes(
+                                  builder: (context) => RefeicaoDetalhes(
                                     titulo: mealName,
                                     data: dia,
                                     index: index,
