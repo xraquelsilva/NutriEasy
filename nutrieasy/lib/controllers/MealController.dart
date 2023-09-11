@@ -20,7 +20,6 @@ class MealController {
 
       final String userId = user.uid;
 
-      // Verifica se o usuário já possui um cardápio
       final DatabaseEvent event =
           await _databaseReference.child('cardapios').child(userId).once();
 
@@ -30,16 +29,11 @@ class MealController {
         throw Exception('Você já possui um cardápio');
       }
 
-      // Cria um novo cardápio
       DatabaseReference menuRef =
           _databaseReference.child('cardapios').child(userId);
 
-      // Obtém o próximo índice disponível para a refeição
-      // int nextMealIndex = dataSnapshot.value[''];
-
       await menuRef.set({'user_id': userId});
 
-      // Adicione as refeições ao cardápio
       for (int i = 0; i < mealNames.length; i++) {
         await menuRef.child('refeicoes').child('refeicao_$i').set({
           'nome': mealNames[i],
@@ -62,12 +56,10 @@ class MealController {
 
       DatabaseEvent event = await menuRef.once();
       DataSnapshot dataSnapshot = event.snapshot;
-      // dynamic data = (dataSnapshot.value) as dynamic;
       Map<dynamic, dynamic> data = (dataSnapshot.value) as dynamic;
 
       Map meals = data;
 
-      // Percorre as refeições para encontrar a que corresponde ao nome
       for (var entry in meals.entries) {
         String mealId = entry.key;
         var mealData = entry.value;
@@ -75,7 +67,6 @@ class MealController {
         String name = mealData['nome'];
 
         if (mealData['nome'] == mealName) {
-          // A refeição foi encontrada, retornando seus dados
           return mealId;
         }
       }
@@ -136,11 +127,11 @@ class MealController {
 
         return mealsName;
       } else {
-        return []; // Retornar uma lista vazia se nenhum dado for encontrado.
+        return []; 
       }
     } catch (error) {
       print("Erro ao buscar dados: $error");
-      return []; // Tratar o erro retornando uma lista vazia.
+      return []; 
     }
   }
 
@@ -149,7 +140,6 @@ Future<List<RefeicaoOptionModel>> findMealOptions(String userId, String mealName
     String mealId = await findMealByUserIdAndName(userId, mealName);
 
     if (mealId.isEmpty) {
-      // A refeição não foi encontrada, retornar uma lista vazia
       return [];
     }
 
@@ -169,13 +159,12 @@ Future<List<RefeicaoOptionModel>> findMealOptions(String userId, String mealName
     if (data != null) {
       Map options = data;
 
-      // Percorre as opções de refeição
       if (update){
         Random random = Random();
         for (var entry in options.entries) {
           for (int x = 0; x < entry.value.length; x++) {
             String optionName = entry.value[x];
-            String optionId = "generate_your_id_here"; // Defina como desejar
+            String optionId = "generate_your_id_here"; 
             if (random.nextInt(options.length) == 0) {
               mealOptions.add(RefeicaoOptionModel(name: optionName));
             }
@@ -185,7 +174,7 @@ Future<List<RefeicaoOptionModel>> findMealOptions(String userId, String mealName
         for (var entry in options.entries) {
           for (int x = 0; x < entry.value.length; x++) {
             String optionName = entry.value[x];
-            String optionId = "generate_your_id_here"; // Defina como desejar
+            String optionId = "generate_your_id_here"; 
             mealOptions.add(RefeicaoOptionModel(name: optionName));
           }
         }

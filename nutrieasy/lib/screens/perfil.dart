@@ -1,20 +1,21 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_element
 
-//import 'dart:js_util';
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PerfilPage extends StatefulWidget {
   const PerfilPage({super.key});
   @override
-  // ignore: library_private_types_in_public_api
   _PerfilPageState createState() => _PerfilPageState();
 }
 
 bool botao1select = true;
 bool botao2select = false;
 
+final _firebaseAuth = FirebaseAuth.instance;
 class _PerfilPageState extends State<PerfilPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +35,7 @@ class _PerfilPageState extends State<PerfilPage> {
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
+                // ignore: prefer_const_literals_to_create_immutables
                 colors: <Color>[
                   Color(0xFFCDDE47),
                   Colors.white,
@@ -50,11 +52,7 @@ class _PerfilPageState extends State<PerfilPage> {
           SizedBox(
             child: Container(
               alignment: Alignment.topCenter,
-               //child: CircleAvatar(
-                //backgroundColor: Colors.orange,
-                //backgroundImage: AssetImage('assets/images/perfil.png'),
-                //radius: 37,
-               //),
+
             ),
           ),
           SizedBox(
@@ -62,7 +60,7 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
           SizedBox(
             child: Text(
-              'Luis Felipe',
+              '${_firebaseAuth.currentUser!.displayName}',
               style: TextStyle(
                 fontSize: 15,
                 fontFamily: 'PublicSans',
@@ -77,7 +75,7 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
           SizedBox(
             child: Text(
-              'luis.felipe@email.com',
+              '${_firebaseAuth.currentUser!.email}',
               style: TextStyle(
                 fontSize: 12,
                 fontFamily: 'PublicSans',
@@ -146,10 +144,10 @@ Widget buildTable2() {
   List<TabelaItem2> tabelaDados2 = [
     TabelaItem2(
       titulo: 'Peso',
-      valor: '80.0 kg',
+      valor: '-----',
     ),
-    TabelaItem2(titulo: 'Calorias', valor: '2000kcal'),
-    TabelaItem2(titulo: 'Taxa de gordura', valor: '---kg/m2'),
+    TabelaItem2(titulo: 'Calorias', valor: '-----'),
+    TabelaItem2(titulo: 'Taxa de gordura', valor: '-----'),
   ];
 
   return Container(
@@ -196,10 +194,10 @@ class TabelaItem2 {
 
 Widget buildTable() {
   List<TabelaItem> tabelaDados1 = [
-    TabelaItem(titulo: 'Peso', valor: '70.0 kg'),
-    TabelaItem(titulo: 'Altura', valor: '1.83 m'),
-    TabelaItem(titulo: 'IMC', valor: '---kg/m2'),
-    TabelaItem(titulo: 'Taxa de gordura', valor: '---%')
+    TabelaItem(titulo: 'Peso', valor: '-----'),
+    TabelaItem(titulo: 'Altura', valor: '-----'),
+    TabelaItem(titulo: 'IMC', valor: '-----'),
+    TabelaItem(titulo: 'Taxa de gordura', valor: '-----')
   ];
 
   return Container(
@@ -301,9 +299,9 @@ Widget screen1(context) {
 
 Widget buildTable3() {
   List<TabelaItem> tabelaDados3 = [
-    TabelaItem(titulo: 'Objetivo', valor: 'Ganho de massa magra'),
-    TabelaItem(titulo: 'Sexo', valor: 'Masculino'),
-    TabelaItem(titulo: 'Nascimento', valor: '01/01/2001'),
+    TabelaItem(titulo: 'Objetivo', valor: '-----'),
+    TabelaItem(titulo: 'Sexo', valor: '-----'),
+    TabelaItem(titulo: 'Nascimento', valor:'-----'),
     TabelaItem(titulo: 'Senha', valor: '*******')
   ];
 
@@ -365,7 +363,6 @@ Widget screen2(context) {
         width: 130,
         child: FloatingActionButton.extended(
           onPressed: () {
-            setState() {}
           },
           elevation: 0,
           label: const Text('Atualizar'),

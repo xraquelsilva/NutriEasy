@@ -168,7 +168,7 @@ class _CardapioState extends State<Cardapio> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: dropOpcoes.map((op) {
-                String diaOpcao = op.split('/')[0]; // Extrai o dia da opção
+                String diaOpcao = op.split('/')[0]; 
                 bool isSelected = op == selectedDate;
 
                 return GestureDetector(
@@ -208,7 +208,7 @@ class _CardapioState extends State<Cardapio> {
                     child: ListView.separated(
                       itemCount: listNamesData.length,
                       separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(height: 10); // Espaço vertical de 10 pixels entre os itens
+                        return SizedBox(height: 10); 
                       },
                       itemBuilder: (BuildContext context, int index) {
                         String mealName = listNamesData[index];

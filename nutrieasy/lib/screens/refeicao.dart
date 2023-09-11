@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/models/RefeicaoOptionModel.dart';
-import 'dart:math';
 
 import '../controllers/MealController.dart';
 
@@ -25,13 +24,13 @@ class _RefeicaoDetalhesState extends State<RefeicaoDetalhes> {
   final _firebaseAuth = FirebaseAuth.instance;
   late MealController _controller;
   List<RefeicaoOptionModel> opcoesRefeicao = [];
-  RefeicaoOptionModel? selectedOption; // Guarda a opção selecionada no DropdownButton
+  RefeicaoOptionModel? selectedOption; 
 
   @override
   void initState() {
     super.initState();
     _controller = MealController();
-    _loadMealOptions(false); // Carrega as opções quando a página é iniciada
+    _loadMealOptions(false); 
   }
 
   Future<void> _loadMealOptions(bool update) async {
@@ -43,8 +42,7 @@ class _RefeicaoDetalhesState extends State<RefeicaoDetalhes> {
           await _controller.findMealOptions(userId, mealName, update);
 
       setState(() {
-        // List<Object> opcoesRefeicao = mealOptions;
-        selectedOption = null; // Limpa a opção selecionada
+        selectedOption = null; 
       });
     } catch (e) {
       print('Erro ao carregar opções de refeição: $e');
@@ -88,7 +86,7 @@ class _RefeicaoDetalhesState extends State<RefeicaoDetalhes> {
               gradient: LinearGradient(
                 colors: <Color>[
                   Color(0xFFCDDE47),
-                  Colors.white, // Corrigido: era "Colors white"
+                  Colors.white, 
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,

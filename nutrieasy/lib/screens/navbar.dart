@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:nutrieasy/screens/cardapio.dart';
-import 'package:nutrieasy/screens/home-page.dart';
 import 'perfil.dart';
 
 
@@ -21,17 +20,11 @@ class BottomTabBar extends StatefulWidget {
 
 class Navibar extends State<BottomTabBar> {
   int _index = 0;
-  
-  
-  
-
-  
 
   final screens = [
     Cardapio(),
     PerfilPage(),
     
-    // PerfilPage()
   ];
   
 

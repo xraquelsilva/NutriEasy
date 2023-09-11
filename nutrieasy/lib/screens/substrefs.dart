@@ -52,7 +52,7 @@ class _SubstRefState extends State<SubstRef> {
                 onChanged: (newValue) {
                   setState(() {
                     selectedMealIndex = newValue!;
-                    selectedOptionIndex = 0; // Reset option index
+                    selectedOptionIndex = 0; 
                   });
                 },
                 items: List.generate(widget.mealNames.length, (index) {
@@ -134,7 +134,6 @@ class _SubstRefState extends State<SubstRef> {
                                   fontFamily: 'PublicSans',
                                   fontSize: 16,
                                   color: Color(0xFF4A4A4A),
-                                  // fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
@@ -185,18 +184,4 @@ class _SubstRefState extends State<SubstRef> {
     );
   }
 
-
-
-
-  // void CreateMeals() {
-  //   DatabaseReference databaseReference = FirebaseDatabase.instance.reference().child('cardapio');
-  //   for (int i = 0; i < widget.mealNames.length; i++) {
-  //     String nameMeal = textControllers[i].text;
-  //     if(nameMeal.isNotEmpty){
-  //       databaseReference.push().set({
-  //         'name': nameMeal
-  //       });
-  //     }
-  //   }
-  // }
 }
