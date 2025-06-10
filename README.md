@@ -7,7 +7,9 @@ O NutriEasy é o seu aliado inteligente para uma jornada de alimentação saudá
 Com o NutriEasy, o usuário pode:
 
 Registrar suas refeições: Adicione facilmente o que você comeu em cada refeição (café da manhã, almoço, jantar, lanches), mantendo um diário alimentar completo.
+
 Visualizar o acompanhamento: Tenha uma visão clara e detalhada do seu consumo ao longo do tempo, identificando padrões e ajustando seus hábitos conforme necessário.
+
 Monitorar o progresso: Acompanhe sua evolução em relação aos objetivos da sua dieta, recebendo insights que incentivam a adesão e a motivação.
 
 ## Tecnologias
